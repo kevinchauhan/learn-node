@@ -1,7 +1,14 @@
+const categoryModel = require("../models/categoryModel")
 
 const categoryController = {
-    get: (req, res) => {
-        res.send('category controller')
+    get: async (req, res) => {
+        try {
+            const categories = await categoryModel.find()
+            res.send(categories)
+        } catch (error) {
+            console.log(error)
+            res.status(500).send('error while fetching data')
+        }
     }
 }
 
