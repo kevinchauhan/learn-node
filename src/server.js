@@ -1,8 +1,12 @@
 const express = require('express')
 const catRouter = require('./routes/categoryRoute')
+const dbConnection = require('./config/db')
+const Config = require('./config')
 const app = express()
-const PORT = process.env.PORT || 5000
+const PORT = Config.PORT || 5000
 
+// db connection
+dbConnection()
 
 // routes
 app.use('/category', catRouter)
