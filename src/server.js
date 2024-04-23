@@ -1,5 +1,4 @@
 const express = require('express')
-const catRouter = require('./routes/categoryRoute')
 const dbConnection = require('./config/db')
 const Config = require('./config')
 const app = express()
@@ -12,7 +11,7 @@ dbConnection()
 app.use(express.urlencoded({ extended: false }))
 
 // routes
-app.use('/category', catRouter)
+
 
 app.listen(PORT, () => {
     console.log(`Listening on http://localhost:${PORT}`)
