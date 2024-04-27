@@ -64,6 +64,11 @@ const userController = {
                 expiresIn: '1d'
             })
 
+            res.cookie('token', token, {
+                httpOnly: true,
+                maxAge: 1000 * 60 * 60 * 24   // 24 hr
+            })
+
             res.json({
                 message: 'login success',
                 success: true,

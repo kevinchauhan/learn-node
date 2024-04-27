@@ -1,4 +1,5 @@
 const express = require('express')
+const cookieParser = require('cookie-parser')
 const dbConnection = require('./config/db')
 const Config = require('./config')
 const userRouter = require('./routes/userRoute')
@@ -10,6 +11,7 @@ dbConnection()
 
 // parse body
 app.use(express.json())
+app.use(cookieParser())
 
 // routes
 app.use('/api/user', userRouter)
