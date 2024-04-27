@@ -30,6 +30,42 @@ const userController = {
             })
         }
 
+    },
+    login: async (req, res) => {
+
+        try {
+            const { email, password } = req.body
+            const user = await userModel.findOne({ email })
+
+            if (!user) {
+                return res.status(401).json({
+                    message: 'Invalid email or password',
+                    success: false
+                })
+            }
+
+            const isVerify = await bcryptjs.compare(password, user.password)
+
+            if (!isVerify) {
+                return res.status(401).json({
+                    message: 'Invalid email or password',
+                    success: false
+                })
+            }
+
+            res.json({
+                message: 'login success',
+                success: true
+            })
+
+
+        } catch (error) {
+            res.status(500).json({
+                message: 'Error while fetching user in db',
+                success: false
+            })
+        }
+
     }
 }
 
