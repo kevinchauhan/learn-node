@@ -61,7 +61,7 @@ const userController = {
             }
 
             const token = jwt.sign(payload, Config.JWT_SECRET, {
-                expiresIn: '1m'
+                expiresIn: '1d'
             })
 
             res.json({
@@ -83,9 +83,14 @@ const userController = {
 
         try {
 
+            const payload = req.user
+
+            const user = await userModel.findById(payload.sub).select('-password -createdAt -updatedAt -__v')
+
             res.json({
                 message: 'self',
-                success: true
+                success: true,
+                data: user
             })
 
 

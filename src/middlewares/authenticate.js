@@ -12,7 +12,17 @@ const authenticate = (req, res, next) => {
             })
         }
 
-        const payload = jwt.verify(token, Config.JWT_SECRET)
+        const accessToken = token.split(' ')[1]
+
+        const payload = jwt.verify(accessToken, Config.JWT_SECRET, (err, decoded) => {
+            if (err) {
+                return res.status(401).json({
+                    message: 'Token not found or invalid',
+                    success: false
+                })
+            }
+            return decoded
+        })
 
         if (!payload) {
             return res.status(401).json({
@@ -20,9 +30,10 @@ const authenticate = (req, res, next) => {
                 success: false
             })
         }
-
+        req.user = payload
         next()
     } catch (error) {
+        console.log(error)
         res.status(500).json({
             message: 'Error while verifying token',
             success: false
