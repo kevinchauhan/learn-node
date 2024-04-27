@@ -5,5 +5,6 @@ const userRouter = Router()
 
 userRouter.post('/signup', userController.create)
 userRouter.post('/login', userController.login)
+userRouter.get('/self', userController.self)
 
 module.exports = userRouter

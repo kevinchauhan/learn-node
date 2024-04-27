@@ -1,5 +1,7 @@
 const bcryptjs = require('bcryptjs');
-const userModel = require("../models/userModel")
+const userModel = require("../models/userModel");
+const jwt = require('jsonwebtoken');
+const Config = require('../config');
 
 const userController = {
     create: async (req, res) => {
@@ -53,8 +55,36 @@ const userController = {
                 })
             }
 
+            const payload = {
+                sub: user._id,
+                name: user.name
+            }
+
+            const token = jwt.sign(payload, Config.JWT_SECRET, {
+                expiresIn: '1m'
+            })
+
             res.json({
                 message: 'login success',
+                success: true,
+                token
+            })
+
+
+        } catch (error) {
+            res.status(500).json({
+                message: 'Error while fetching user in db',
+                success: false
+            })
+        }
+
+    },
+    self: async (req, res) => {
+
+        try {
+
+            res.json({
+                message: 'self',
                 success: true
             })
 
